@@ -1,39 +1,37 @@
-import React, { useState } from 'react';
-
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeNotification, addNotification } from '../redux/actions';
+import './NotificationList.css';
 
 const NotificationList = () => {
-  const [notifications, setNotifications] = useState([]);
+  const notifications = useSelector((state) => state.notifications);
+  const dispatch = useDispatch();
 
-  const addInfo = () => {
-    setNotifications([...notifications, { id: Date.now(), message: 'This is an info message', level: 'info' }]);
+  const showInfo = () => {
+    dispatch(addNotification('This is an info message', 'info'));
   };
 
-  const addError = () => {
-    setNotifications([...notifications, { id: Date.now(), message: 'This is an error message', level: 'error' }]);
-  };
-
-  const removeNotification = (id) => {
-    setNotifications(notifications.filter(n => n.id !== id));
-  };
-
-  const clearAll = () => {
-    setNotifications([]);
+  const showError = () => {
+    dispatch(addNotification('This is an error message', 'error'));
   };
 
   return (
-    <div className="notification-wrapper">
-      <h1>Global Notification Center</h1>
+    <div>
       <div className="button-group">
-        <button onClick={addInfo}>Show Info</button>
-        <button onClick={addError}>Show Error</button>
-        <button onClick={clearAll}>Clear All</button>
+        <button onClick={showInfo}>Show Info</button>
+        <button onClick={showError}>Show Error</button>
       </div>
 
       <div className="notification-container">
         {notifications.map((n) => (
           <div key={n.id} className={`notification ${n.level}`}>
             <span>{n.message}</span>
-            <button className="close-btn" onClick={() => removeNotification(n.id)}>✖</button>
+            <button
+              className="close-btn"
+              onClick={() => dispatch(removeNotification(n.id))}
+            >
+              ✖
+            </button>
           </div>
         ))}
       </div>

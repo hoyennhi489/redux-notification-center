@@ -1,4 +1,8 @@
-import { createStore } from 'redux';
-import { notificationReducer } from './reducer';
+import { createStore, combineReducers } from 'redux';
+import { notificationsReducer } from './reducer';
 
-export const store = createStore(notificationReducer);
+const rootReducer = combineReducers({
+  notifications: notificationsReducer,
+});
+
+export const store = createStore(rootReducer);

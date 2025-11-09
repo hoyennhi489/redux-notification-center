@@ -1,20 +1,15 @@
 import { ADD_NOTIFICATION, REMOVE_NOTIFICATION, CLEAR_ALL } from './actions';
 
-const initialState = {
-  notifications: [],
-};
+const initialState = [];
 
-export const notificationReducer = (state = initialState, action) => {
+export const notificationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_NOTIFICATION:
-      return { ...state, notifications: [...state.notifications, action.payload] };
+      return [...state, action.payload];
     case REMOVE_NOTIFICATION:
-      return {
-        ...state,
-        notifications: state.notifications.filter((n) => n.id !== action.payload),
-      };
+      return state.filter((n) => n.id !== action.payload);
     case CLEAR_ALL:
-      return { ...state, notifications: [] };
+      return [];
     default:
       return state;
   }
